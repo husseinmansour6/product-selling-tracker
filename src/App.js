@@ -1,6 +1,83 @@
+import React, { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { getProducts } from "./redux/actions/products"
 import "./App.css"
 
 function App() {
+  const data = [
+    {
+      productName: "product 1",
+      quantity: 20,
+      totalCost: 200,
+      extraFees: 0,
+      costPerItem: 10,
+      sellingPricePerItem: 15,
+      minimumProfit: 100,
+      extraProfit: 0,
+      soldQuantity: 2,
+      ProfitTillDate: 30
+    },
+    {
+      productName: "product 2",
+      quantity: 20,
+      totalCost: 200,
+      extraFees: 0,
+      costPerItem: 10,
+      sellingPricePerItem: 15,
+      minimumProfit: 100,
+      extraProfit: 0,
+      soldQuantity: 2,
+      ProfitTillDate: 30
+    }
+  ]
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getProducts(data))
+  }, [])
+
+  const products = useSelector(state => state.products.products)
+  console.log({ products })
+
+  const generateProducts = () => {
+    if (products) {
+      return products.map((product, index) => {
+        const {
+          productName,
+          quantity,
+          totalCost,
+          extraFees,
+          costPerItem,
+          sellingPricePerItem,
+          minimumProfit,
+          extraProfit,
+          soldQuantity,
+          ProfitTillDate
+        } = product
+        return (
+          <tr key={index}>
+            <td>{productName}</td>
+            <td>{quantity}</td>
+            <td>{totalCost}</td>
+            <td>{extraFees}</td>
+            <td>{costPerItem}</td>
+            <td>{sellingPricePerItem}</td>
+            <td>{minimumProfit}</td>
+            <td>{extraProfit}</td>
+            <td>{soldQuantity}</td>
+            <td>{ProfitTillDate}</td>
+            <td>
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
+        )
+      })
+    } else {
+      return <div>no products</div>
+    }
+  }
+
   return (
     <div>
       <h1>Product Selling Tracker</h1>
@@ -19,24 +96,7 @@ function App() {
           <th>Profit till date</th>
           <th>Controls</th>
         </thead>
-        <tbody>
-          <tr>
-            <td>product 1</td>
-            <td>20</td>
-            <td>200</td>
-            <td>0</td>
-            <td>10</td>
-            <td>15</td>
-            <td>300</td>
-            <td>0</td>
-            <td>2</td>
-            <td>30</td>
-            <td>
-              <button>Edit</button>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{generateProducts()}</tbody>
       </table>
     </div>
   )
