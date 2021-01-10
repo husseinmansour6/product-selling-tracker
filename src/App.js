@@ -37,7 +37,6 @@ function App() {
   }, [])
 
   const products = useSelector(state => state.products.products)
-  console.log({ products })
 
   const generateProducts = () => {
     if (products) {
